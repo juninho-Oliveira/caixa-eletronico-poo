@@ -35,8 +35,8 @@ O sistema segue as regras definidas pela atividade da faculdade, garantindo:
 Clique no nome para acessar o GitHub de cada integrante:
 
 - 👤 [Damião Junior](https://github.com/juninho-Oliveira)
-- 👤 [Integrante 2](https://github.com/usuario2)
-- 👤 [Integrante 3](https://github.com/usuario3)
+- 👤 [Elias Augusto](http://github.com/eliasaugustoo2203)
+- 👤 [Cristhian Chagas](https://github.com/cristhianchagas)
 - 👤 [Integrante 4](https://github.com/usuario4)
 - 👤 [Integrante 5](https://github.com/usuario5)
 - 👤 [Integrante 6](https://github.com/usuario6)
