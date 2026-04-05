@@ -1,0 +1,44 @@
+/**
+ * Interface (contrato) que define as operacoes do Caixa Eletronico.
+ * Essa interface nao pode ser alterada, conforme definido pelo professor.
+ */
+public interface ICaixaEletronico {
+
+    /**
+     * Retorna o valor total disponivel no caixa eletronico.
+     * Soma todas as cedulas multiplicadas por suas quantidades.
+     * @return String formatada com o valor total disponivel
+     */
+    public String pegaValorTotalDisponivel();
+
+    /**
+     * Efetua o saque de um determinado valor.
+     * O algoritmo prioriza as cedulas de maior valor.
+     * Nao permite saques acima de 30 cedulas.
+     * @param valor o valor a ser sacado
+     * @return String formatada informando o resultado da operacao
+     */
+    public String sacar(Integer valor);
+
+    /**
+     * Retorna um relatorio com todas as cedulas e suas quantidades disponiveis.
+     * @return String formatada com as cedulas e suas quantidades
+     */
+    public String pegaRelatorioCedulas();
+
+    /**
+     * Efetua a reposicao de cedulas de um determinado valor.
+     * @param cedula o valor da cedula a ser reposta (ex: 100, 50, 20...)
+     * @param quantidade a quantidade de cedulas a adicionar
+     * @return String formatada informando o resultado da operacao
+     */
+    public String reposicaoCedulas(Integer cedula, Integer quantidade);
+
+    /**
+     * Define a cota minima do caixa.
+     * Quando o saldo ficar abaixo desse valor, o caixa para de atender clientes.
+     * @param minimo o valor minimo do caixa
+     * @return String formatada informando o resultado da operacao
+     */
+    public String armazenaCotaMinima(Integer minimo);
+}

@@ -1,0 +1,249 @@
+package ProjetoJadir;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Classe principal do Caixa Eletronico.
+ * Implementa o contrato definido na interface ICaixaEletronico.
+ * Gerencia as cedulas, saques, reposicoes e cota minima.
+ */
+public class CaixaEletronico implements ICaixaEletronico{
+	
+	/**
+	 * Matriz 6x2 que representa o estoque de cedulas do caixa.
+	 * Coluna 0: valor de cedula (100, 50, 20, 10, 5, 2)
+	 * Coluna 1: quantidade disponível de cada cedula
+	 */
+	private int[][]cedulas = {
+	{100, 100},
+	{50, 200},
+	{20, 300},
+	{10, 350},
+	{5, 450},
+	{2, 500}
+	};
+	
+	//Valor minimo que o caixa deve ter para continuar atendendo clientes
+	private int cotaMinima = 0;
+	
+	//Lista que guarda o historico de saques realizados (usado no extrato)
+	private List<String> extrato = new ArrayList<>();
+	
+	//Saldo no momento em que o caixa foi iniciado (para exibir no extrato)
+	private int saldoInicial;
+	
+	/**
+	 * Construtor: incializa o caixa e registra o saldo inicial
+	 */
+	public CaixaEletronico() {
+		this.saldoInicial = calcularTotal();
+	}
+	
+	/**
+	 * Retorna o valor total disponível no caixa. 
+	 * Multiplica o valor de cada cedula pela sua quantidade e soma tudo
+	 */
+	@Override
+	public String pegaValorTotalDisponivel() {
+		return "Valor total disponivel: R$ " + calcularTotal();
+	}
+	
+	/**
+	 * Efetua o saque de um valor solicitado pelo cliente
+	 * Regras:
+	 * Se o saldo estiver abaixo da cota minima, nao realiza o saque
+	 * Usa algoritimo guloso: prioriza cedulas de maior valor.
+	 * Nao permite emitir mais de 30 cedulas por saque
+	 * Se nao for possivel completar o saque, informa o cliente
+	 */
+	@Override
+	public String sacar(Integer valor) {
+		//Verifica se o caixa esta abaixo da cota minima
+		if (calcularTotal() <= cotaMinima) {
+			return "Caixa Vazio: Chame o Operador";
+		}
+		
+		//Valor invalido
+		if (valor <= 0) {
+			return "Valor de saque invalido.";
+		}
+		
+		//Array para guardar quantas cedulas de cada tipo serao usadas
+		int[] qtdUsada = new int[6];
+		int restante = valor; //valor ainda a ser coberto pelo saque
+		int totalCedulas = 0; //total de cedulas que serao entregues
+				
+		//Copia temporaria das quantidades para simular o saque sem alterar o estoque
+		int[] tempQtd = new int[6];
+		for (int i = 0; i < 6; i++) {
+			tempQtd[i] = cedulas [i][1];
+		}
+		
+		//Algoritmo guloso: percorre as cedulas do maior para o menor valor
+		for (int i = 0; i < 6; i++) {
+			if(restante <= 0) break;
+			
+			int valorCedula = cedulas[i][0];
+			
+			//Calcula quantas cedulas desse valor sao necessarias
+			int qtdNecessaria = restante / valorCedula;
+			
+			//Nao pode usar mais do que tem disponivel
+			int qtdDisponivel = tempQtd[i];
+			int qtdUsar = Math.min(qtdNecessaria, qtdDisponivel);
+			
+			//Respeita o limite de 30 cedulas por saque
+			if(totalCedulas + qtdUsar > 30) {
+				qtdUsar = 30 - totalCedulas;
+			}
+			
+			//registra o uso desta cedula
+			qtdUsada[i] = qtdUsar;
+			restante -= qtdUsar * valorCedula;
+			totalCedulas += qtdUsar;
+			
+			//Se ja atingiu 30 cedulas, ira parar
+			if(totalCedulas >= 30) break;	
+		}
+		
+		//se ainda sobrou valor a cobrir, o saque nao pode ser realizado
+		if (restante != 0) {
+			return "Nao Temos Notas Para Este Saque";
+		}
+		
+		//saque aprovado: atualiza o estoque real de cedulas
+		for (int i = 0; i < 6; i++) {
+			cedulas [i][1] -= qtdUsada[i];
+		}
+		
+		//Monta a mensagem de resultado para exibir ao cliente
+		StringBuilder sb = new StringBuilder();
+		sb.append("Saque de R$ ").append(valor).append(" realizado com sucesso!\n");
+		sb.append("Cedulas entregues:\n");
+		for (int i = 0; i < 6; i++) {
+			if (qtdUsada[i] > 0) {
+				sb.append(" Nota R$ ").append(cedulas[i][0])
+					.append(" x ").append(qtdUsada[i]).append("\n");				
+			}
+		}
+		
+		String resultado = sb.toString();
+		
+		//Registra o saque no historico para o extrato final
+		extrato.add("Saque: R$ " + valor + " | Saldo apos: R$ " + calcularTotal());
+		
+		//Avisa se o caixa ficou abaixo da cota minima apos o saque
+		if (calcularTotal() <= cotaMinima) {
+			resultado += "\nAVISO: Caixa Vazio: Chame o Operador";
+		}
+		
+		return resultado;	
+	}
+	
+	/**
+	 * Retorna um relatorio com o estoque atual de todas as cedulas
+	 * mostra o valor de cada cedula e sua quantidade disponivel
+	 */
+	@Override
+	public String pegaRelatorioCedulas() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Relatorio de Cedulas: ");
+		sb.append(System.getProperty("line.separator"));
+		sb.append(String.format("%-15s %-15s\n", "Valor (R$)", "Quantidade"));
+		sb.append("------------------------------");
+		sb.append(System.getProperty("line.separator"));
+		for (int[] c : cedulas) {
+			sb.append(String.format("%-15d %-15d\n", c[0], c[1]));
+		}
+		return sb.toString();
+	}
+	
+	/**
+	 * Realiza a reposicao de cedular de um determinado valor.
+	 * Encontra a linha correspondente na matriz e adiciona a quantidade informada
+	 * @param cedula valor da cedula (deve ser 2, 5, 10, 20, 50 ou 100)
+	 * @param quantidade quantas cedulas serao adicionadas	
+	 */
+	@Override
+	public String reposicaoCedulas(Integer cedula, Integer quantidade) {
+		//percorre a matriz procurando a cedula informada
+		for (int[] c : cedulas) {
+			if(c[0] == cedula) {
+				c[1] += quantidade; // adiciona a quantidade ao estoque
+				return "Reposicao realizada: " + quantidade + "cedula(s) de R$ " + cedula
+						+ "adicionada(s).\nNovo total: " + c[1] + " cedula(s).";
+			}
+		}
+		//Se chegar aqui, a cedula informada nao existe no caixa
+		return "Cedula de R$ " + cedula + " nao reconhecida. Valores aceitos: 2, 5, 10, 20, 50, 100.";
+	}
+	
+	/**
+	 * Define a cota minima do caixa.
+	 * Quando o saldo total ficar igual ou abaixo desse valor, o caixa para de atender os clientes
+	 * @param minimo valor minimo aceitado no caixa	
+	 */
+	@Override
+	public String armazenaCotaMinima(Integer minimo) {
+		this.cotaMinima = minimo;
+		String msg = "Cota minima definida: R$ " + minimo;
+		
+		//Verifica imediatamente se o saldo atual ja esta abaixo da cota
+		if (calcularTotal() <= cotaMinima) {
+			msg += "\nAVISO: Caixa Vazio: Chame o Operador";
+		}
+		return msg;
+	}
+	
+	/**
+	 * Metodo auxiliar privado que calcula o valor total disponivel no caixa
+	 * Percorre a matriz e soma: valor_cedula x quantidade;
+	 * @return total em reais disponivel no caixa
+	 */
+	private int calcularTotal() {
+		int total = 0;
+		for (int[] c : cedulas) {
+			total += c[0] * c[1];
+		}
+		return total;
+	}
+	
+	/**Gera o extrato completo com todos os saques realizados na sessao;
+	 * Exibe o saldo inicial, cada saque com saldo resultande, e saldo final
+	 * chamado pelo botao "Sair" da interface grafica.
+	 * @return String com o extrato formatado
+	 */
+	public String getExtrato() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("========== EXTRATO ==========");
+		sb.append(System.getProperty("line.separator"));
+		sb.append("Saldo Inicial: R$ ").append(saldoInicial).append(System.getProperty("line.separator"));
+		sb.append("-----------------------------");
+		
+		if (extrato.isEmpty()) {
+			sb.append(System.getProperty("line.separator"));
+			sb.append("Nenhum saque realizado.\n");
+		} else {
+			//Lista todos os saques numerados
+			for (int i = 0; i < extrato.size(); i++) {
+				sb.append((i + 1)).append(". ").append(extrato.get(i)).append("\n");
+			}
+		}
+		
+		sb.append("-----------------------------");
+		sb.append(System.getProperty("line.separator"));
+		sb.append("Saldo atual: R$ ").append(calcularTotal()).append("\n"); 
+		sb.append("=============================");
+		return sb.toString();
+	}
+	
+	/**
+	 * Metodo principal que inicia a aplicacao 
+	 * Cria uma instancia do CaixaEletronico e passa para a interface grafica (GUI).
+	 */
+	public static void main(String[] args) {
+		GUI janela = new GUI(new CaixaEletronico());
+		janela.mostrar();
+	}	
+}

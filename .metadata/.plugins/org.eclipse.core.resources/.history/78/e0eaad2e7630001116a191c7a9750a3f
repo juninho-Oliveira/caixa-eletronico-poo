@@ -1,0 +1,5 @@
+package ProjetoJadir;
+
+public interface ICaixaEletronico {
+
+}
