@@ -40,7 +40,7 @@ Clique no nome para acessar o GitHub de cada integrante:
 - 👤 [Monica Castro](https://github.com/monicacastropacheco09-star)
 - 👤 [Pedro](https://github.com/Pedrinxp)
 - 👤 [Leticia ](http://github.com/leticiaevang)
-- 👤 [Integrante 7](https://github.com/usuario7)
+- 👤 [Felipe ](http://github.com/fehamroim09)
 - 👤 [Integrante 8](https://github.com/usuario8)
 - 👤 [Integrante 9](https://github.com/usuario9)
 
