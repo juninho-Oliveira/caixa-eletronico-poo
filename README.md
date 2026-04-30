@@ -39,7 +39,7 @@ Clique no nome para acessar o GitHub de cada integrante:
 - 👤 [Cristhian Chagas](https://github.com/cristhianchagas)
 - 👤 [Monica Castro](https://github.com/monicacastropacheco09-star)
 - 👤 [Pedro](https://github.com/Pedrinxp)
-- 👤 [Integrante 6](https://github.com/usuario6)
+- 👤 [Leticia ](http://github.com/leticiaevang)
 - 👤 [Integrante 7](https://github.com/usuario7)
 - 👤 [Integrante 8](https://github.com/usuario8)
 - 👤 [Integrante 9](https://github.com/usuario9)
