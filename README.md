@@ -38,9 +38,9 @@ Clique no nome para acessar o GitHub de cada integrante:
 - 👤 [Elias Augusto](http://github.com/eliasaugustoo2203)
 - 👤 [Cristhian Chagas](https://github.com/cristhianchagas)
 - 👤 [Monica Castro](https://github.com/monicacastropacheco09-star)
-- 👤 [Pedro](https://github.com/Pedrinxp)
-- 👤 [Leticia ](http://github.com/leticiaevang)
-- 👤 [Felipe ](http://github.com/fehamroim09)
+- 👤 [Pedro Henrique](https://github.com/Pedrinxp)
+- 👤 [Letícia Evangelista ](http://github.com/leticiaevang)
+- 👤 [Felipe Rocha](http://github.com/fehamroim09)
 - 👤 [Lucas Mendonça](https://github.com/zPhamtom)
 - 👤 [Raul Adriano](https://github.com/rauladrixdev)
 
