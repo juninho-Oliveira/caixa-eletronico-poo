@@ -41,8 +41,8 @@ Clique no nome para acessar o GitHub de cada integrante:
 - 👤 [Pedro](https://github.com/Pedrinxp)
 - 👤 [Leticia ](http://github.com/leticiaevang)
 - 👤 [Felipe ](http://github.com/fehamroim09)
-- 👤 [Integrante 8](https://github.com/usuario8)
-- 👤 [Integrante 9](https://github.com/usuario9)
+- 👤 [Lucas Mendonça](https://github.com/zPhamtom)
+- 👤 [Raul Adriano](https://github.com/rauladrixdev)
 
 ---
 
