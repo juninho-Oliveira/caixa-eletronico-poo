@@ -27,6 +27,8 @@ O sistema segue as regras definidas pela atividade da faculdade, garantindo:
 - Programação Orientada a Objetos (POO)
 - Interface Gráfica (GUI)
 
+![Interface do Sistema](./interface.jpeg)
+
 
 ---
 
