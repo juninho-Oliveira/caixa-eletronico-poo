@@ -45,7 +45,7 @@ Clique no nome para acessar o GitHub de cada integrante:
 - 👤 [Felipe Rocha](http://github.com/fehamroim09)
 - 👤 [Lucas Mendonça](https://github.com/zPhamtom)
 - 👤 [Raul Adriano](https://github.com/rauladrixdev)
-
+- 👤 [Henrique Matias](https://github.com/Dev-Henri-dot)
 ---
 
 ## 📊 Funcionalidades
